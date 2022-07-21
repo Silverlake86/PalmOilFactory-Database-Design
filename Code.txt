@@ -1,0 +1,202 @@
+TRUNCATE TABLE department;
+DROP TABLE department;
+CREATE TABLE department(
+  department_id VARCHAR(3) CONSTRAINT department_id_pk PRIMARY KEY,
+  department_name VARCHAR2(15) UNIQUE NOT NULL,
+  working_hours VARCHAR2(10) NOT NULL
+);
+DESCRIBE department;
+INSERT INTO department VALUES('FNC', 'Finance', '9 hours');
+INSERT INTO department VALUES('HR', 'Human Resource', '15 hours');
+INSERT INTO department VALUES('SLS', 'Sales', '12 hours');
+INSERT INTO department VALUES('INV', 'Inventory', '6 hours');
+INSERT INTO department VALUES('PDC', 'Production', '8 hours');
+SELECT * FROM department;
+
+TRUNCATE TABLE employee;
+DROP TABLE employee;
+CREATE TABLE employee(
+ employee_id VARCHAR2(1000) CONSTRAINT employee_pk Primary KEY,
+ first_name VARCHAR2(10) NOT NULL,
+ last_name VARCHAR2(10),
+ department_id VARCHAR(3),
+ position VARCHAR2(25) NOT NULL,
+ sex VARCHAR2(6) NOT NULL,
+ date_of_birth DATE NOT NULL,
+ phone VARCHAR2(25) UNIQUE NOT NULL,
+ email VARCHAR2(50) UNIQUE NOT NULL,
+ Address VARCHAR2(50) NOT NULL,
+ base_salary NUMBER(20),
+ currently_working VARCHAR2(3) NOT NULL,
+ date_hired DATE NOT NULL,
+ date_stopped DATE,
+ CONSTRAINT employees_department_fk FOREIGN KEY (department_id) REFERENCES department (department_id)
+);
+DESCRIBE employee;
+INSERT INTO employee VALUES('EMP01', 'Setiawan', 'Junior', 'FNC', 'Manager', 'MALE', '24-Jan-2001', '+62813677289', 'setiawan@gmail.com', 'Jl.Asia', 25000000, 'YES', '23-Jul-2015', NULL);
+INSERT INTO employee VALUES('EMP02', 'Ordrick', 'NULL', 'HR', 'Manager', 'MALE', '13-Oct-2000', '+62819865613', 'ordrick@gmail.com', 'Jl.Bambu', 25000000, 'YES', '30-Jan-2016', NULL);
+INSERT INTO employee VALUES('EMP03', 'Owen', 'Wirawan', 'SLS', 'Manager', 'MALE', '01-May-2000', '+62819878420', 'owen@gmail.com', 'Jl.Yosurdarso', 25000000, 'YES', '04-Apr-2013', NULL);
+INSERT INTO employee VALUES('EMP04', 'Ucok', 'Baba', 'INV', 'Manager', 'MALE', '09-Sep-1967', '+62819871950', 'ucok@gmail.com', 'Jl.Surga', 30000000, 'YES', '06-JUL-2000',  '23-Jul-2015');
+SELECT * FROM employee;
+
+
+TRUNCATE TABLE office_equipment;
+DROP TABLE office_equipment;
+CREATE TABLE office_equipment(
+ office_equipment_id VARCHAR2(1000) CONSTRAINT office_equipment_pk PRIMARY KEY,
+ equipment_name VARCHAR2(15) NOT NULL,
+  department_id VARCHAR(3),
+ date_of_purchased DATE NOT NULL,
+ base_price NUMBER(10) NOT NULL,
+ last_maintenance_date DATE,
+ insurance VARCHAR2(3) NOT NULL,
+ CONSTRAINT office_eq_dpt_fk FOREIGN KEY(department_id) REFERENCES department (department_id) 
+);
+
+DESCRIBE office_equipment;
+INSERT INTO office_equipment VALUES('EQP01', 'Chair', 'FNC', '01-Jan-2000', 150000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP02', 'Computer', 'FNC', '01-Jan-2000', 3500000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP03', 'Desk', 'FNC', '01-Jan-2000', 1000000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP04', 'Chair', 'HR', '01-Jan-2000', 150000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP05', 'Computer', 'HR', '01-Jan-2000', 3500000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP06', 'Desk', 'HR', '01-Jan-2000', 1000000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP07', 'Chair', 'SLS', '01-Jan-2000', 150000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP08', 'Computer', 'SLS', '01-Jan-2000', 3500000, NULL, 'NO');
+INSERT INTO office_equipment VALUES('EQP09', 'Desk', 'SLS', '01-Jan-2000', 1000000, NULL, 'NO');
+SELECT * FROM office_equipment;
+
+TRUNCATE TABLE customer;
+DROP TABLE customer;
+CREATE TABLE customer(
+customer_id VARCHAR2(1000) CONSTRAINT customer_id_pk PRIMARY KEY,
+customer_name VARCHAR2(30) NOT NULL, 
+sex VARCHAR2(6) NOT NULL,
+country VARCHAR2(15) NOT NULL,
+company VARCHAR2(30) NOT NULL, 
+position VARCHAR2(30) NOT NULL,
+phone VARCHAR2(25) NOT NULL,
+email VARCHAR2 (50),
+date_registered DATE NOT NULL
+);
+DESCRIBE customer;
+INSERT INTO customer VALUES('CST01', 'Bambang', 'MALE', 'INDONESIA', 'PT.SUKSES JAYA', 'Inventory Manager', '+6282123456789', 'bambang@gmail.com', '20-Jan-2015');
+INSERT INTO customer VALUES('CST02', 'Selena', 'FEMALE', 'SINGAPORE', 'KWOK PTE LTD', 'Secretary', '+6501827489', 'selena@gmail.com', '05-Jun-2014');
+INSERT INTO customer VALUES('CST03', 'Kent', 'MALE', 'MALAYSIA', 'Novartis Sdn. Bhd.', 'CTO', '+60132058792', 'kent@gmail.com', '30-Aug-2016');
+SELECT * FROM customer;
+
+TRUNCATE TABLE sales;
+DROP TABLE sales;
+CREATE TABLE sales(
+sales_id VARCHAR2(1000) CONSTRAINT sales_id_pk PRIMARY KEY, 
+sales_name VARCHAR2 (30),
+employee_id VARCHAR2(1000), 
+customer_id VARCHAR2(1000),
+price number(10),
+quantity VARCHAR2(25), 
+issued_date DATE, 
+closing_date DATE, 
+CONSTRAINT sales_employees_fk FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
+CONSTRAINT sales_customer_fk FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+DESCRIBE sales;
+INSERT INTO sales VALUES('SLS01', 'PALM_FILTERED_OIL', 'EMP03', 'CST01', 300000000, '1250Kg', '01-DEC-2019', '06-DEC-2019');
+INSERT INTO sales VALUES('SLS02', 'BIOAVTUR', 'EMP03', 'CST02', 1000000000, '2250Kg', '31-OCT-2019', '17-Mar-2020');
+INSERT INTO sales VALUES('SLS03', 'BIOAVTUR', 'EMP03', 'CST03', 550000000, '1250kg', '20-JUL-2020', '18-Mar-2020');
+SELECT * FROM sales;
+
+TRUNCATE TABLE raw_inventory;
+DROP TABLE raw_inventory;
+CREATE TABLE raw_inventory(
+raw_inventory_id VARCHAR2(1000) CONSTRAINT raw_inventory_pk PRIMARY KEY,
+raw_inventory_name VARCHAR2(30) NOT NULL,
+quantity VARCHAR2(25) NOT NULL,
+date_in DATE,
+date_out DATE
+);
+
+DESCRIBE raw_inventory;
+INSERT INTO raw_inventory VALUES('RIN01', 'PALM FRUIT', '3000Kg', '01-Dec-2019', NULL);
+INSERT INTO raw_inventory VALUES('RIN02', 'PALM FRUIT', '1500Kg', NULL, '06-Dec-2019');
+INSERT INTO raw_inventory VALUES('RIN03', 'PALM OIL', '5000kg', '28-Feb-2020', NULL);
+INSERT INTO raw_inventory VALUES('RIN04', 'PALM OIL', '2500Kg', NULL, '10-Mar-2020');
+INSERT INTO raw_inventory VALUES('RIN05', 'PALM OIL', '1500Kg', NULL, '11-Mar-2020');
+SELECT * FROM raw_inventory;
+
+TRUNCATE TABLE production;
+DROP TABLE production;
+CREATE TABLE production(
+production_id VARCHAR2(1000) CONSTRAINT production_pk PRIMARY KEY,
+production_name VARCHAR2(30) NOT NULL,
+raw_inventory_id VARCHAR2(1000),
+quantity_processed VARCHAR2(25) NOT NULL,
+processed_results VARCHAR2(25) NOT NULL,
+quantity_lost VARCHAR(25) NOT NULL,
+stored_quantity VARCHAR(25) NOT NULL,
+production_date  DATE,
+CONSTRAINT production_raw_inv_fk FOREIGN KEY(raw_inventory_id) REFERENCES raw_inventory (raw_inventory_id)
+);
+DESCRIBE production;
+INSERT INTO production VALUES ('PDC01', 'DEC6-Batch1', 'RIN02', '1500kg', '1250Kg', '250kg','1250Kg', '06-Dec-2019');
+INSERT INTO production VALUES('PDC02', 'FEB28-Batch1', 'RIN04', '2500Kg', '2250kg', '250Kg', '2250Kg', '10-Mar-2020');
+INSERT INTO production VALUES('PDC03', 'Feb28-Batch2', 'RIN05', '1500Kg', '1250Kg', '250Kg', '1250Kg', '11-Mar-2020'); 
+SELECT * FROM production;
+
+TRUNCATE TABLE processed_inventory;
+DROP TABLE processed_inventory;
+CREATE TABLE processed_inventory(
+processed_inventory_id VARCHAR2(1000) CONSTRAINT processed_inventory_pk PRIMARY KEY,
+processed_inventory_name VARCHAR2(30) NOT NULL,
+production_id VARCHAR2(1000),
+quantity VARCHAR2(25) NOT NULL,
+date_in DATE,
+date_out DATE,
+CONSTRAINT processsed_inv_fk FOREIGN KEY (production_id) REFERENCES production (production_id)
+);
+DESCRIBE processed_inventory;
+INSERT INTO processed_inventory VALUES('PIN01', 'FILTERED_PALM_OIL', 'PDC01', '1250Kg', '06-Dec-2019', NULL);
+INSERT INTO processed_inventory VALUES('PIN02', 'FILTERED_PALM_OIL', 'PDC01', '1250Kg', NULL, '12-Dec-2019');
+INSERT INTO processed_inventory VALUES('PIN03', 'BIOAVTUR', 'PDC02', '2250Kg', '10-Mar-2020', NULL);
+INSERT INTO processed_inventory VALUES('PIN04', 'BIOAVTUR','PDC03', '1250Kg', '11-Mar-2020', NULL);
+INSERT INTO processed_inventory VALUES('PIN05', 'BIOAVTUR','PDC02', '2250Kg', NULL, '17-Mar-2020');
+INSERT INTO processed_inventory VALUES('PIN06', 'BIOAVTUR','PDC03', '1250Kg', NULL, '18-Mar-2020');
+SELECT * FROM processed_inventory;
+
+TRUNCATE TABLE finance;
+DROP TABLE finance;
+CREATE TABLE finance(
+  finance_id VARCHAR2(1000) CONSTRAINT finance_id_pk PRIMARY KEY,
+  agenda_date DATE NOT NULL,
+  agenda_name VARCHAR2(25) NOT NULL,
+  employee_in_charge_id VARCHAR2(1000),
+  department_id VARCHAR(3),
+  customer_id VARCHAR2(1000),
+  nominal NUMBER(10),
+  paid VARCHAR2(3),
+  cash_number NUMBER(10),
+  account_receivable NUMBER(10),
+  account_payable NUMBER(10),
+  CONSTRAINT finance_employee_charge_fk FOREIGN KEY (employee_in_charge_id) REFERENCES employee (employee_id),
+  CONSTRAINT finance_department_fk FOREIGN KEY (department_id) REFERENCES department (department_id),
+  CONSTRAINT finance_customer_id FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
+  );
+  DESCRIBE finance;
+  INSERT INTO finance VALUES('FNC01', '01-DEC-2019', 'PALM_FILTERED_OIL_SALES', 'EMP03', 'SLS', 'CST01', 300000000, 'NO', 0, 300000000, NULL);
+  INSERT INTO finance VALUES('FNC02', '01-DEC-2019', 'PALM_FILTERED_OIL_SALES', 'EMP03', 'SLS', 'CST01', 300000000, 'YES', 300000000, NULL, NULL);
+  INSERT INTO finance VALUES('FNC03', '31-OCT-2019', 'BIOAVTUR', 'EMP03', 'SLS', 'CST02', 1000000000, 'NO', 0, 1000000000, NULL);
+  INSERT INTO finance VALUES('FNC04', '31-OCT-2019', 'BIOAVTUR', 'EMP03', 'SLS', 'CST02', 1000000000, 'YES', 1000000000, NULL, NULL);
+  INSERT INTO finance VALUES('FNC05', '20-JUL-2019', 'BIOAVTUR', 'EMP03', 'SLS', 'CST03', 550000000, 'NO', 0, 550000000, NULL);
+  INSERT INTO finance VALUES('FNC06', '20-JUL-2019', 'BIOAVTUR', 'EMP03', 'SLS', 'CST03', 550000000, 'YES', 550000000, NULL, NULL);
+  SELECT * FROM finance;
+  
+SELECT employee.employee_id, employee.first_name, department.department_name, employee.position, employee.sex, employee.base_salary, employee.currently_working, employee.date_hired, 
+employee.date_stopped, employee.base_salary, department.working_hours  FROM employee 
+JOIN department ON (employee.department_id = department.department_id); 
+
+SELECT sales.sales_id, sales.sales_name, employee.first_name, department.department_name, employee.position, customer.customer_name, customer.country, sales.price, sales.issued_date, sales.closing_date
+FROM sales JOIN employee ON (sales.employee_id = employee.employee_id)
+JOIN department ON (employee.department_id = department.department_id)
+JOIN customer ON (sales.customer_id = customer.customer_id);
+
+SELECT MAX(equipment_name), MAX(base_price), MIN(equipment_name), MIN(base_price) FROM office_equipment;
+SELECT AVG(price) FROM sales;
+SELECT * FROM employee WHERE (base_salary > 25000000);

@@ -1,0 +1,17 @@
+Laporan Tugas Kelompok
+Anggota Kelompok: Ordrick, Owen Filbert Wirawan, Setiawan Junior
+Kelas: 18TI3
+Tema Proyek: Database untuk Pabrik Kelapa Sawit 
+
+Database ini si desain untuk bisa langsung diimplementasikan langsung di pabrik kelapa sawit. Kata kunci dalam database ini 
+adalah "integrasi" dengan kata lain setiap table akan memiliki hubungan dengan tabel yang lain agar dapat mendapatkan hasil 
+kalkulasi maupun data yang diinput secara efektif dan efisien.
+
+database ini dibagi menjadi dua bagian 
+yang pertama adalah bagian kantor dimana terdiri dari tabel departemen, employee, office_equipment, sales, finance, customer.
+Ini merupakan hal yang biasa dan bisa ditemukan di sistem database lainnya.
+
+Apa yang membuat kita berbeda dari yang lain adalah pada bagian kedua yaitu bagian pabrik.
+Untuk bisa melacak dan memantau hasil produksi sampai penyimpanan bahan baku dan tanggal masuk dan pengiriman untuk setiap bagian
+dari pabrik dan langsung terhubung dengan finance and sales. Kita membaginya menjadi tiga tabel. Tabel raw_inventory, tabel proses,
+dan tabel processed_inventory. menggunakan sistem date in dan date out kita mampu melacak apapun yang terjadi dalam pabrik.
